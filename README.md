@@ -29,11 +29,12 @@ Progress Report
 - add sound effects
 - make enemies move
 - make player fire
-- add collision detection on, player, projectiles, enemies and game window edges
+- add collision detection on projectiles, enemies and game window edges
 - make enemies destructiable
 
 
 **Finished:** stuff that was on the todo list and is now comlpete.
 - add a HUD
 - add some fun stats to the HUD such as, score, level etc.
+- add collision detection on player
 

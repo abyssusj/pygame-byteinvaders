@@ -16,7 +16,6 @@ import sys
 import time
 import random
 
-
 # Classes that define colours and stuff
 class PaintBrush:
 
@@ -57,8 +56,6 @@ class HouseObj:
 
     def move(self):
         if self.isplayer is False:
-            pass
-        else:
             """ Handles Keys """
             key = pygame.key.get_pressed()
             dist = 0.5 # distance moved in 1 frame, try changing it to 5
@@ -74,7 +71,7 @@ class HouseObj:
 
     def draw(self):
         pygame.draw.lines(self.screen, self.colour,
-                            False, self.make(), self.lineThickness)
+                        False, self.make(), self.lineThickness)
 
 
 class SquareObj:
@@ -149,15 +146,21 @@ class TriangleObj:
         else:
             """ Handles Keys """
             key = pygame.key.get_pressed()
-            dist = 0.5 # distance moved in 1 frame, try changing it to 5
+            dist = 5 # distance moved in 1 frame, try changing it to 5
             #if key[pygame.K_DOWN]: # down key
                 #self.y += dist # move down
             #elif key[pygame.K_UP]: # up key
                 #elf.y -= dist # move up
             if key[pygame.K_RIGHT]: # right key
-                self.x += dist # move right
+                if self.x >= screenwh[0]-64:
+                    pass
+                else:
+                    self.x += dist # move right
             elif key[pygame.K_LEFT]: # left key
-                self.x -= dist # move left
+                if self.x <= 0+12:
+                    pass
+                else:
+                    self.x -= dist # move left
             '''if pressed[pygame.K_SPACE]:
                 if reloaded:
                     shots.append(player.copy())
@@ -272,7 +275,7 @@ class EnemyWave:
 
     def __init__(self, count):
         self.count = count
-        self.x = 50
+        self.x = 42
         self.y = 90
         self.width = 20
         self.height = 20
@@ -288,11 +291,11 @@ class EnemyWave:
             for x in xrange(1, 5, 1):
                 #print "creating row", n + 1
                 n += 1
-                for y in xrange(1, 12, 1):
+                for y in xrange(1, 13, 1):
                     self.enemyObj = SquareObj(self.x,self.y,self.width,self.height,screen,enemyColour,3, False)
                     self.enemies.append(self.enemyObj)
                     self.x += 30
-                self.x = 50
+                self.x = 42
                 self.y += 30
                 print 'creating new line'
 
@@ -318,7 +321,8 @@ if __name__ == "__main__":
     pygame.display.set_caption('Pewpew')
     pygame.mixer.music.load(os.path.join('sounds', 'nuttypc2.wav'))#load music
 
-    screen = pygame.display.set_mode((432, 432))
+    screenwh = [432, 423]
+    screen = pygame.display.set_mode((screenwh[0], screenwh[1]))
 
     # play music non-stop
     pygame.mixer.music.play(-1)
@@ -354,7 +358,7 @@ if __name__ == "__main__":
                   pygame.quit(); sys.exit();
 
         # game speed
-        msElapsed = clock.tick(300)
+        msElapsed = clock.tick(30)
 
 
         # erase the screen
