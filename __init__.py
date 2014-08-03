@@ -129,6 +129,9 @@ class TriangleObj:
         self.colour = colour
         self.lineThickness = lineThickness
         self.isplayer = isplayer
+        self.myfont = pygame.font.SysFont("monospace", 12)
+        self.firetxt = 'PewPew!'
+        self.fire = False
         return
 
     def make(self):
@@ -149,8 +152,10 @@ class TriangleObj:
             dist = 5 # distance moved in 1 frame, try changing it to 5
             #if key[pygame.K_DOWN]: # down key
                 #self.y += dist # move down
-            #elif key[pygame.K_UP]: # up key
-                #elf.y -= dist # move up
+            if key[pygame.K_UP]: # up key
+                self.fire = True
+                self.firetxthud = self.myfont.render(self.firetxt, 2, self.colour)
+
             if key[pygame.K_RIGHT]: # right key
                 if self.x >= screenwh[0]-64:
                     pass
@@ -172,6 +177,15 @@ class TriangleObj:
     def draw(self):
         pygame.draw.lines(self.screen, self.colour,
                             False, self.make(), self.lineThickness)
+        #below is a placeholder for shooting stuff
+        if self.fire is True:
+            print self.firetxt, self.x, self.y
+            screen.blit(self.firetxthud, (self.x, self.y-72))
+            self.fire = False
+        else:
+            pass
+
+
 
 class GridBgOBJ:
 
