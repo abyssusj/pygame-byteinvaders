@@ -4,7 +4,7 @@
 Project: Byte Invaders
 Concept: Retro space invader game with a twist
 
-Author: abyssus.j@gmail.com
+Author: abyssus dot <nospamkkty> j at gmail dot com
 
 Status: incomplete
 Todo: just about everything
@@ -149,7 +149,7 @@ class TriangleObj:
         else:
             """ Handles Keys """
             key = pygame.key.get_pressed()
-            dist = 5 # distance moved in 1 frame, try changing it to 5
+            dist = 10 # distance moved in 1 frame, try changing it to 5
             #if key[pygame.K_DOWN]: # down key
                 #self.y += dist # move down
             if key[pygame.K_UP]: # up key
@@ -179,7 +179,6 @@ class TriangleObj:
                             False, self.make(), self.lineThickness)
         #below is a placeholder for shooting stuff
         if self.fire is True:
-            print self.firetxt, self.x, self.y
             screen.blit(self.firetxthud, (self.x, self.y-72))
             self.fire = False
         else:
@@ -311,7 +310,6 @@ class EnemyWave:
                     self.x += 30
                 self.x = 42
                 self.y += 30
-                print 'creating new line'
 
             return self.enemies
 
@@ -332,7 +330,7 @@ if __name__ == "__main__":
 
     clock = pygame.time.Clock()
 
-    pygame.display.set_caption('Pewpew')
+    pygame.display.set_caption('Python Byte Invaders')
     pygame.mixer.music.load(os.path.join('sounds', 'nuttypc2.wav'))#load music
 
     screenwh = [432, 423]
@@ -372,7 +370,7 @@ if __name__ == "__main__":
                   pygame.quit(); sys.exit();
 
         # game speed
-        msElapsed = clock.tick(30)
+        msElapsed = clock.tick(15)
 
 
         # erase the screen

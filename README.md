@@ -4,7 +4,7 @@ Byte Invaders
 **Project:** Byte Invaders - retro space invader game with a twist.
 **Why?:** Because I wanted a fun python programming learning experience.
 
-**Author:** abyssus dot j at gmail dot com.
+**Author:** abyssus dot <nospamkkty> j at gmail dot com.
 
 Git commands for my reference
 --------------
@@ -17,6 +17,7 @@ Usful resources for my reference
 RGB colour generator http://www.colorschemer.com/online.html
 Wrap pygame in javascript for web http://gatc.ca/2013/07/31/deploy-javascript-application-using-pyjsdl/
 pyjs http://pyjs.org/Overview.html
+How to get pyjamas going in ubuntu http://askubuntu.com/questions/348/how-do-i-install-pyjamas
 
 Progress Report
 --------------
