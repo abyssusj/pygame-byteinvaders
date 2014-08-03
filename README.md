@@ -4,7 +4,7 @@ Byte Invaders
 **Project:** Byte Invaders - retro space invader game with a twist
 **Why?:** Because I wanted a fun python programming learning experience
 
-**Author:** abyssus.j@gmail.com
+**Author:** abyssus dot j at gmail dot com
 
 Git commands for my reference
 --------------
