@@ -6,6 +6,12 @@ Byte Invaders
 
 **Author:** abyssus.j@gmail.com
 
+Git commands for my reference
+--------------
+git add <filename> #adds file to nect commit
+git commit -m "insert commit comment here" #commits files
+git push -u origin master # sends files to master repo
+
 Progress Report
 --------------
 **Status:** incomplete
