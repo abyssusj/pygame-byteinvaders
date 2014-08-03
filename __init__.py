@@ -26,7 +26,7 @@ class PaintBrush:
     def swatch(self):
         colours = {'red': (255,0,0), 'green': (0,255,0), 'blue': (0,0,255),
                 'darkBlue': (0,0,128), 'white': (255,255,255), 'black': (0,0,0),
-                'pink': (255,51,102), 'yellow': (255,255,0), 'vdarkBlue': (0,37,51)}
+                'pink': (255,51,102), 'yellow': (255,255,0), 'vdarkBlue': (0,6,31)}
         return colours
 
 
@@ -175,34 +175,50 @@ class GridBgOBJ:
     def __init__(self, screen, gridColour):
         self.screen = screen
         self.colour = gridColour
+        self.grid = []
         self.linesh = []
         self.linesv = []
 
         self.hx = 12
-        self.hy = 424
         self.hstart = 0
-        self.hstop = 424
+        self.hy = 432
+        self.hstop = 432
 
+        self.vx1 = 0
+        self.vy1 = 12
+        self.vx2 = 432
+        self.vy2 = 432
 
 
         return
 
     def make(self):
 
-        for num in xrange(4):
+        for i in xrange(36):
+            self.points = []
+            self.points.append((self.vx1,self.vy1))
+            self.points.append((self.vx2,self.vy1))
+
+            self.linesv.append(self.points)
+            self.vy1 += 12
+
+        for i in xrange(36):
             self.points = []
             self.points.append((self.hx,self.hstart))
             self.points.append((self.hx,self.hstop))
+
             self.linesh.append(self.points)
             self.hx += 12
-            return self.linesh
+
+        self.grid = self.linesh + self.linesv
+
+        return self.grid
+
 
     def draw(self):
-        
-        for self.i in self.linesh:
-            print 'creating grid line'
-            print self.i
-            pygame.draw.lines(self.screen, self.colour, False, self.i, 1)
+        for i in self.grid:
+            pygame.draw.lines(self.screen, self.colour, False, i, 1)
+
 
         return
 
@@ -278,6 +294,7 @@ class EnemyWave:
                     self.x += 30
                 self.x = 50
                 self.y += 30
+                print 'creating new line'
 
             return self.enemies
 
@@ -325,6 +342,7 @@ if __name__ == "__main__":
 
     playerHUD = UserHUDObj(screen,textColour, playerscore, wavenum, playerlives)
     gridBg = GridBgOBJ(screen, gridColour)
+    gridBg.make()
 
     game_on = True
 
@@ -342,18 +360,17 @@ if __name__ == "__main__":
         # erase the screen
         screen.fill(bgColour)
 
-
         # draw something
+        gridBg.draw()
         playerHUD.make()
         playerHUD.draw()
-
-        gridBg.make()
-        gridBg.draw()
 
         playerObj.draw()
         playerObj.move()
 
         enemyWave.draw()
+
+
 
 
 

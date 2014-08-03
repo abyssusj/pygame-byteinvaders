@@ -1,10 +1,10 @@
 Byte Invaders
 ==============
 
-**Project:** Byte Invaders - retro space invader game with a twist
-**Why?:** Because I wanted a fun python programming learning experience
+**Project:** Byte Invaders - retro space invader game with a twist.
+**Why?:** Because I wanted a fun python programming learning experience.
 
-**Author:** abyssus dot j at gmail dot com
+**Author:** abyssus dot j at gmail dot com.
 
 Git commands for my reference
 --------------
@@ -16,6 +16,8 @@ Progress Report
 --------------
 **Status:** incomplete
 **Todo:** just about everything
+- add a splash screen with a game title and stuff
+- add sound file /sounds/dialupmodem.ogg to splash screen
 - divide the game flow into stages
 - apply different music to each game stage
 - add sound effects
