@@ -26,7 +26,7 @@ class PaintBrush:
     def swatch(self):
         colours = {'red': (255,0,0), 'green': (0,255,0), 'blue': (0,0,255),
                 'darkBlue': (0,0,128), 'white': (255,255,255), 'black': (0,0,0),
-                'pink': (255,51,102), 'yellow': (255,255,0)}
+                'pink': (255,51,102), 'yellow': (255,255,0), 'vdarkBlue': (0,37,51)}
         return colours
 
 
@@ -170,12 +170,94 @@ class TriangleObj:
         pygame.draw.lines(self.screen, self.colour,
                             False, self.make(), self.lineThickness)
 
+class GridBgOBJ:
+
+    def __init__(self, screen, gridColour):
+        self.screen = screen
+        self.colour = gridColour
+        self.linesh = []
+        self.linesv = []
+
+        self.hx = 12
+        self.hy = 424
+        self.hstart = 0
+        self.hstop = 424
+
+
+
+        return
+
+    def make(self):
+
+        for num in xrange(4):
+            self.points = []
+            self.points.append((self.hx,self.hstart))
+            self.points.append((self.hx,self.hstop))
+            self.linesh.append(self.points)
+            self.hx += 12
+            return self.linesh
+
+    def draw(self):
+        
+        for self.i in self.linesh:
+            print 'creating grid line'
+            print self.i
+            pygame.draw.lines(self.screen, self.colour, False, self.i, 1)
+
+        return
+
+class UserHUDObj:
+
+    def __init__(self, screen, textColour, playerscore, wavenum, playerlives):
+        self.colour = textColour
+        self.myfont = pygame.font.SysFont("monospace", 12)
+        self.x = 10
+        self.y = 46
+        self.points = []
+        self.screen = screen
+        self.score = playerscore
+        self.scoretxt = "Score"
+
+        self.wavenum = wavenum
+        self.wavetxt = "Wave"
+
+        self.livesnum = playerlives
+        self.livestxt = "Lives"
+        return
+
+    def make(self):
+        self.scoretxthud = self.myfont.render(self.scoretxt, 1, textColour)
+        self.scorenumhud = self.myfont.render(str(self.score), 1, textColour)
+
+        self.wavetxthud = self.myfont.render(self.wavetxt, 1, textColour)
+        self.wavenumhud = self.myfont.render(str(self.wavenum), 1, textColour)
+
+        self.livestxthud = self.myfont.render(self.livestxt, 1, textColour)
+        self.livesnumhud = self.myfont.render(str(self.livesnum), 1, textColour)
+
+        self.points.append((self.x,self.y- ((2/3.0) * 20))) # top of 1st story, upper left
+        self.points.append((self.x+414,self.y-(2/3.0) * 20)) # top of 1st story upper right
+        return self.points
+
+    def draw(self):
+        pygame.draw.lines(self.screen, self.colour, False, self.points, 1)
+
+        screen.blit(self.livestxthud, (334, 8))
+        screen.blit(self.livesnumhud, (390, 8))
+
+        screen.blit(self.scoretxthud, (184, 8))
+        screen.blit(self.scorenumhud, (230, 8))
+
+        screen.blit(self.wavetxthud, (34, 8))
+        screen.blit(self.wavenumhud, (90, 8))
+        return
+
 class EnemyWave:
 
     def __init__(self, count):
         self.count = count
         self.x = 50
-        self.y = 50
+        self.y = 90
         self.width = 20
         self.height = 20
         self.enemies = []
@@ -188,7 +270,7 @@ class EnemyWave:
             pass
         else:
             for x in xrange(1, 5, 1):
-                print "creating row", n + 1
+                #print "creating row", n + 1
                 n += 1
                 for y in xrange(1, 12, 1):
                     self.enemyObj = SquareObj(self.x,self.y,self.width,self.height,screen,enemyColour,3, False)
@@ -203,7 +285,7 @@ class EnemyWave:
         return
 
     def draw(self):
-        print self.enemies
+        #print self.enemies
         for self.enemyObj in self.enemies:
             self.enemyObj.draw()
         return
@@ -219,7 +301,7 @@ if __name__ == "__main__":
     pygame.display.set_caption('Pewpew')
     pygame.mixer.music.load(os.path.join('sounds', 'nuttypc2.wav'))#load music
 
-    screen = pygame.display.set_mode((424, 320))
+    screen = pygame.display.set_mode((432, 432))
 
     # play music non-stop
     pygame.mixer.music.play(-1)
@@ -228,13 +310,21 @@ if __name__ == "__main__":
     swatch = paint.swatch()
 
     bgColour = swatch['black']
+    gridColour = swatch['vdarkBlue']
     playerColour = swatch['green']
     enemyColour = swatch['red']
     textColour = swatch['yellow']
 
     enemyWave = EnemyWave(2)
-    playerObj = TriangleObj(190,340,50,50,screen,playerColour,3, True)
 
+    playerObj = TriangleObj(190,440,50,50,screen,playerColour,3, True)
+
+    playerscore = 0
+    wavenum = 1
+    playerlives = 3
+
+    playerHUD = UserHUDObj(screen,textColour, playerscore, wavenum, playerlives)
+    gridBg = GridBgOBJ(screen, gridColour)
 
     game_on = True
 
@@ -254,14 +344,20 @@ if __name__ == "__main__":
 
 
         # draw something
+        playerHUD.make()
+        playerHUD.draw()
+
+        gridBg.make()
+        gridBg.draw()
+
         playerObj.draw()
         playerObj.move()
 
         enemyWave.draw()
 
-        myfont = pygame.font.SysFont("monospace", 15)
-        label = myfont.render("Welcome to byte invaders!", 1, textColour)
-        screen.blit(label, (100, 5))
+
+
+
 
 
         # update the screen
