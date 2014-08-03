@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python
+'''
+Project: Byte Invaders
+Concept: Retro space invader game with a twist
+
+Author: abyssus.j@gmail.com
+
+Status: incomplete
+Todo: just about everything
+'''
 
 import pygame
 import os
@@ -17,7 +26,7 @@ class PaintBrush:
     def swatch(self):
         colours = {'red': (255,0,0), 'green': (0,255,0), 'blue': (0,0,255),
                 'darkBlue': (0,0,128), 'white': (255,255,255), 'black': (0,0,0),
-                'pink': (255,51,102)}
+                'pink': (255,51,102), 'yellow': (255,255,0)}
         return colours
 
 
@@ -201,10 +210,19 @@ class EnemyWave:
 
 # Main game loop
 if __name__ == "__main__":
+    pygame.mixer.pre_init(44100, -16, 2, 2048) # setup mixer to avoid sound lag
+
     pygame.init()
+
     clock = pygame.time.Clock()
+
     pygame.display.set_caption('Pewpew')
+    pygame.mixer.music.load(os.path.join('sounds', 'nuttypc2.wav'))#load music
+
     screen = pygame.display.set_mode((424, 320))
+
+    # play music non-stop
+    pygame.mixer.music.play(-1)
 
     paint = PaintBrush()
     swatch = paint.swatch()
@@ -212,6 +230,7 @@ if __name__ == "__main__":
     bgColour = swatch['black']
     playerColour = swatch['green']
     enemyColour = swatch['red']
+    textColour = swatch['yellow']
 
     enemyWave = EnemyWave(2)
     playerObj = TriangleObj(190,340,50,50,screen,playerColour,3, True)
@@ -227,7 +246,7 @@ if __name__ == "__main__":
                   pygame.quit(); sys.exit();
 
         # game speed
-        msElapsed = clock.tick(200)
+        msElapsed = clock.tick(300)
 
 
         # erase the screen
@@ -240,6 +259,9 @@ if __name__ == "__main__":
 
         enemyWave.draw()
 
+        myfont = pygame.font.SysFont("monospace", 15)
+        label = myfont.render("Welcome to byte invaders!", 1, textColour)
+        screen.blit(label, (100, 5))
 
 
         # update the screen
