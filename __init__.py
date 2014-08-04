@@ -32,7 +32,7 @@ class PaintBrush:
 # Classes that build game objects
 class HouseObj:
 
-    def __init__(self, x,y,width,height,screen,colour,lineThickness, isplayer):
+    def __init__(self, x,y,width,height,screen,colour,lineThickness, is_player):
         self.x = x
         self.y = y
         self.width = width
@@ -40,8 +40,7 @@ class HouseObj:
         self.screen = screen
         self.colour = colour
         self.lineThickness = lineThickness
-        self.isplayer = isplayer
-        return
+        self.is_player = is_player
 
     def make(self):
         self.points = [] # start with an empty list
@@ -55,7 +54,7 @@ class HouseObj:
         return self.points
 
     def move(self):
-        if self.isplayer is False:
+        if self.is_player is False:
             """ Handles Keys """
             key = pygame.key.get_pressed()
             dist = 0.5 # distance moved in 1 frame, try changing it to 5
@@ -67,7 +66,6 @@ class HouseObj:
                 self.x += dist # move right
             elif key[pygame.K_LEFT]: # left key
                 self.x -= dist # move left
-        return
 
     def draw(self):
         pygame.draw.lines(self.screen, self.colour,
@@ -76,7 +74,7 @@ class HouseObj:
 
 class SquareObj:
 
-    def __init__(self, x,y,width,height,screen,colour,lineThickness, isplayer):
+    def __init__(self, x,y,width,height,screen,colour,lineThickness, is_player):
         self.x = x
         self.y = y
         self.width = width
@@ -84,8 +82,7 @@ class SquareObj:
         self.screen = screen
         self.colour = colour
         self.lineThickness = lineThickness
-        self.isplayer = isplayer
-        return
+        self.is_player = is_player
 
     def make(self):
         self.points = [] # start with an empty list
@@ -98,7 +95,7 @@ class SquareObj:
         return self.points
 
     def move(self):
-        if self.isplayer is False:
+        if not self.is_player:
             pass
         else:
             """ Handles Keys """
@@ -112,7 +109,6 @@ class SquareObj:
                 self.x += dist # move right
             elif key[pygame.K_LEFT]: # left key
                 self.x -= dist # move left
-        return
 
     def draw(self):
         pygame.draw.lines(self.screen, self.colour,
@@ -120,7 +116,7 @@ class SquareObj:
 
 class TriangleObj:
 
-    def __init__(self, x,y,width,height,screen,colour,lineThickness, isplayer):
+    def __init__(self, x,y,width,height,screen,colour,lineThickness, is_player):
         self.x = x
         self.y = y
         self.width = width
@@ -128,11 +124,10 @@ class TriangleObj:
         self.screen = screen
         self.colour = colour
         self.lineThickness = lineThickness
-        self.isplayer = isplayer
+        self.is_player = is_player
         self.myfont = pygame.font.SysFont("monospace", 12)
         self.firetxt = 'PewPew!'
         self.fire = False
-        return
 
     def make(self):
         self.points = [] # start with an empty list
@@ -144,7 +139,7 @@ class TriangleObj:
         return self.points
 
     def move(self):
-        if self.isplayer is False:
+        if not self.is_player:
             pass
         else:
             """ Handles Keys """
@@ -181,8 +176,6 @@ class TriangleObj:
         if self.fire is True:
             screen.blit(self.firetxthud, (self.x, self.y-72))
             self.fire = False
-        else:
-            pass
 
 
 
@@ -205,8 +198,6 @@ class GridBgOBJ:
         self.vx2 = 432
         self.vy2 = 432
 
-
-        return
 
     def make(self):
 
@@ -236,8 +227,6 @@ class GridBgOBJ:
             pygame.draw.lines(self.screen, self.colour, False, i, 1)
 
 
-        return
-
 class UserHUDObj:
 
     def __init__(self, screen, textColour, playerscore, wavenum, playerlives):
@@ -255,7 +244,6 @@ class UserHUDObj:
 
         self.livesnum = playerlives
         self.livestxt = "Lives"
-        return
 
     def make(self):
         self.scoretxthud = self.myfont.render(self.scoretxt, 1, textColour)
@@ -282,7 +270,7 @@ class UserHUDObj:
 
         screen.blit(self.wavetxthud, (34, 8))
         screen.blit(self.wavenumhud, (90, 8))
-        return
+
 
 class EnemyWave:
 
@@ -294,11 +282,10 @@ class EnemyWave:
         self.height = 20
         self.enemies = []
         self.wave = self.make()
-        return
 
     def make(self):
         n = 0
-        if self.enemies is False:
+        if self.enemies:
             pass
         else:
             for x in xrange(1, 5, 1):
@@ -313,14 +300,12 @@ class EnemyWave:
 
             return self.enemies
 
-    def move(self):
-        return
+    #def move(self):
 
     def draw(self):
         #print self.enemies
         for self.enemyObj in self.enemies:
             self.enemyObj.draw()
-        return
 
 # Main game loop
 if __name__ == "__main__":
@@ -385,13 +370,6 @@ if __name__ == "__main__":
         playerObj.move()
 
         enemyWave.draw()
-
-
-
-
-
-
-
 
         # update the screen
         pygame.display.update()
