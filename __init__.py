@@ -9,303 +9,18 @@ Author: abyssus dot <nospamkkty> j at gmail dot com
 Status: incomplete
 Todo: just about everything
 '''
-
+# installed python libaries
 import pygame
 import os
 import sys
 import time
 import random
 
-# Classes that define colours and stuff
-class PaintBrush:
+# local custom libaries
+from data import cosmetics
+from data import interface
+from data import objects
 
-    def __init__(self):
-        return
-
-    def swatch(self):
-        colours = {'red': (255,0,0), 'green': (0,255,0), 'blue': (0,0,255),
-                'darkBlue': (0,0,128), 'white': (255,255,255), 'black': (0,0,0),
-                'pink': (255,51,102), 'yellow': (255,255,0), 'vdarkBlue': (0,6,31)}
-        return colours
-
-
-# Classes that build game objects
-class HouseObj:
-
-    def __init__(self, x,y,width,height,screen,colour,lineThickness, is_player):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.screen = screen
-        self.colour = colour
-        self.lineThickness = lineThickness
-        self.is_player = is_player
-
-    def make(self):
-        self.points = [] # start with an empty list
-        self.points.append((self.x,self.y- ((2/3.0) * self.height))) # top of 1st story, upper left
-        self.points.append((self.x,self.y))  # lower left corner
-        self.points.append((self.x+self.width,self.y)) # lower right corner
-        self.points.append((self.x+self.width,self.y-(2/3.0) * self.height)) # top of 1st story upper right
-        self.points.append((self.x,self.y- ((2/3.0) * self.height))) # top of first story, upper left
-        self.points.append((self.x + self.width/2.0,self.y-self.height)) # top of roof
-        self.points.append((self.x+self.width,self.y-(2/3.0)*self.height)) # top of 1st story, upper right
-        return self.points
-
-    def move(self):
-        if self.is_player is False:
-            """ Handles Keys """
-            key = pygame.key.get_pressed()
-            dist = 0.5 # distance moved in 1 frame, try changing it to 5
-            if key[pygame.K_DOWN]: # down key
-                self.y += dist # move down
-            elif key[pygame.K_UP]: # up key
-                self.y -= dist # move up
-            if key[pygame.K_RIGHT]: # right key
-                self.x += dist # move right
-            elif key[pygame.K_LEFT]: # left key
-                self.x -= dist # move left
-
-    def draw(self):
-        pygame.draw.lines(self.screen, self.colour,
-                        False, self.make(), self.lineThickness)
-
-
-class SquareObj:
-
-    def __init__(self, x,y,width,height,screen,colour,lineThickness, is_player):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.screen = screen
-        self.colour = colour
-        self.lineThickness = lineThickness
-        self.is_player = is_player
-
-    def make(self):
-        self.points = [] # start with an empty list
-        self.points.append((self.x,self.y- ((2/2) * self.height))) # top of 1st story, upper left
-        self.points.append((self.x,self.y))  # lower left corner
-        self.points.append((self.x+self.width,self.y)) # lower right corner
-        self.points.append((self.x+self.width,self.y-(2/2) * self.height)) # top of 1st story upper right
-        self.points.append((self.x,self.y- ((2/2) * self.height))) # top of first story, upper left
-        self.points.append((self.x+self.width,self.y-(2/2)*self.height)) # top of 1st story, upper right
-        return self.points
-
-    def move(self):
-        if not self.is_player:
-            pass
-        else:
-            """ Handles Keys """
-            key = pygame.key.get_pressed()
-            dist = 0.5 # distance moved in 1 frame, try changing it to 5
-            if key[pygame.K_DOWN]: # down key
-                self.y += dist # move down
-            elif key[pygame.K_UP]: # up key
-                self.y -= dist # move up
-            if key[pygame.K_RIGHT]: # right key
-                self.x += dist # move right
-            elif key[pygame.K_LEFT]: # left key
-                self.x -= dist # move left
-
-    def draw(self):
-        pygame.draw.lines(self.screen, self.colour,
-                            False, self.make(), self.lineThickness)
-
-class TriangleObj:
-
-    def __init__(self, x,y,width,height,screen,colour,lineThickness, is_player):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.screen = screen
-        self.colour = colour
-        self.lineThickness = lineThickness
-        self.is_player = is_player
-        self.myfont = pygame.font.SysFont("monospace", 12)
-        self.firetxt = 'PewPew!'
-        self.fire = False
-
-    def make(self):
-        self.points = [] # start with an empty list
-        self.points.append((self.x,self.y- ((2/3.0) * self.height))) # top of 1st story, upper left
-        self.points.append((self.x+self.width,self.y-(2/3.0) * self.height)) # top of 1st story upper right
-        self.points.append((self.x,self.y- ((2/3.0) * self.height))) # top of first story, upper left
-        self.points.append((self.x + self.width/2.0,self.y-self.height)) # top of roof
-        self.points.append((self.x+self.width,self.y-(2/3.0)*self.height)) # top of 1st story, upper right
-        return self.points
-
-    def move(self):
-        if not self.is_player:
-            pass
-        else:
-            """ Handles Keys """
-            key = pygame.key.get_pressed()
-            dist = 10 # distance moved in 1 frame, try changing it to 5
-            #if key[pygame.K_DOWN]: # down key
-                #self.y += dist # move down
-            if key[pygame.K_UP]: # up key
-                self.fire = True
-                self.firetxthud = self.myfont.render(self.firetxt, 2, self.colour)
-
-            if key[pygame.K_RIGHT]: # right key
-                if self.x >= screenwh[0]-64:
-                    pass
-                else:
-                    self.x += dist # move right
-            elif key[pygame.K_LEFT]: # left key
-                if self.x <= 0+12:
-                    pass
-                else:
-                    self.x -= dist # move left
-            '''if pressed[pygame.K_SPACE]:
-                if reloaded:
-                    shots.append(player.copy())
-                    reloaded = False
-                    # when shooting, create a timeout of RELOAD_SPEED
-                    pygame.time.set_timer(reloaded_event, RELOAD_SPEED) '''
-        return
-
-    def draw(self):
-        pygame.draw.lines(self.screen, self.colour,
-                            False, self.make(), self.lineThickness)
-        #below is a placeholder for shooting stuff
-        if self.fire is True:
-            screen.blit(self.firetxthud, (self.x, self.y-72))
-            self.fire = False
-
-
-
-class GridBgOBJ:
-
-    def __init__(self, screen, gridColour):
-        self.screen = screen
-        self.colour = gridColour
-        self.grid = []
-        self.linesh = []
-        self.linesv = []
-
-        self.hx = 12
-        self.hstart = 0
-        self.hy = 432
-        self.hstop = 432
-
-        self.vx1 = 0
-        self.vy1 = 12
-        self.vx2 = 432
-        self.vy2 = 432
-
-
-    def make(self):
-
-        for i in xrange(36):
-            self.points = []
-            self.points.append((self.vx1,self.vy1))
-            self.points.append((self.vx2,self.vy1))
-
-            self.linesv.append(self.points)
-            self.vy1 += 12
-
-        for i in xrange(36):
-            self.points = []
-            self.points.append((self.hx,self.hstart))
-            self.points.append((self.hx,self.hstop))
-
-            self.linesh.append(self.points)
-            self.hx += 12
-
-        self.grid = self.linesh + self.linesv
-
-        return self.grid
-
-
-    def draw(self):
-        for i in self.grid:
-            pygame.draw.lines(self.screen, self.colour, False, i, 1)
-
-
-class UserHUDObj:
-
-    def __init__(self, screen, textColour, playerscore, wavenum, playerlives):
-        self.colour = textColour
-        self.myfont = pygame.font.SysFont("monospace", 12)
-        self.x = 10
-        self.y = 46
-        self.points = []
-        self.screen = screen
-        self.score = playerscore
-        self.scoretxt = "Score"
-
-        self.wavenum = wavenum
-        self.wavetxt = "Wave"
-
-        self.livesnum = playerlives
-        self.livestxt = "Lives"
-
-    def make(self):
-        self.scoretxthud = self.myfont.render(self.scoretxt, 1, textColour)
-        self.scorenumhud = self.myfont.render(str(self.score), 1, textColour)
-
-        self.wavetxthud = self.myfont.render(self.wavetxt, 1, textColour)
-        self.wavenumhud = self.myfont.render(str(self.wavenum), 1, textColour)
-
-        self.livestxthud = self.myfont.render(self.livestxt, 1, textColour)
-        self.livesnumhud = self.myfont.render(str(self.livesnum), 1, textColour)
-
-        self.points.append((self.x,self.y- ((2/3.0) * 20))) # top of 1st story, upper left
-        self.points.append((self.x+414,self.y-(2/3.0) * 20)) # top of 1st story upper right
-        return self.points
-
-    def draw(self):
-        pygame.draw.lines(self.screen, self.colour, False, self.points, 1)
-
-        screen.blit(self.livestxthud, (334, 8))
-        screen.blit(self.livesnumhud, (390, 8))
-
-        screen.blit(self.scoretxthud, (184, 8))
-        screen.blit(self.scorenumhud, (230, 8))
-
-        screen.blit(self.wavetxthud, (34, 8))
-        screen.blit(self.wavenumhud, (90, 8))
-
-
-class EnemyWave:
-
-    def __init__(self, count):
-        self.count = count
-        self.x = 42
-        self.y = 90
-        self.width = 20
-        self.height = 20
-        self.enemies = []
-        self.wave = self.make()
-
-    def make(self):
-        n = 0
-        if self.enemies:
-            pass
-        else:
-            for x in xrange(1, 5, 1):
-                #print "creating row", n + 1
-                n += 1
-                for y in xrange(1, 13, 1):
-                    self.enemyObj = SquareObj(self.x,self.y,self.width,self.height,screen,enemyColour,3, False)
-                    self.enemies.append(self.enemyObj)
-                    self.x += 30
-                self.x = 42
-                self.y += 30
-
-            return self.enemies
-
-    #def move(self):
-
-    def draw(self):
-        #print self.enemies
-        for self.enemyObj in self.enemies:
-            self.enemyObj.draw()
 
 # Main game loop
 if __name__ == "__main__":
@@ -316,7 +31,7 @@ if __name__ == "__main__":
     clock = pygame.time.Clock()
 
     pygame.display.set_caption('Python Byte Invaders')
-    pygame.mixer.music.load(os.path.join('sounds', 'nuttypc2.wav'))#load music
+    pygame.mixer.music.load(os.path.join('data','sounds', 'nuttypc2.wav'))#load music
 
     screenwh = [432, 423]
     screen = pygame.display.set_mode((screenwh[0], screenwh[1]))
@@ -324,7 +39,7 @@ if __name__ == "__main__":
     # play music non-stop
     pygame.mixer.music.play(-1)
 
-    paint = PaintBrush()
+    paint = cosmetics.PaintBrush()
     swatch = paint.swatch()
 
     bgColour = swatch['black']
@@ -333,16 +48,16 @@ if __name__ == "__main__":
     enemyColour = swatch['red']
     textColour = swatch['yellow']
 
-    enemyWave = EnemyWave(2)
+    enemyWave = objects.EnemyWave(screen, enemyColour, screenwh, 2)
 
-    playerObj = TriangleObj(190,440,50,50,screen,playerColour,3, True)
+    playerObj = objects.TriangleObj(190,440,50,50,screen,screenwh,playerColour,3, True)
 
     playerscore = 0
     wavenum = 1
     playerlives = 3
 
-    playerHUD = UserHUDObj(screen,textColour, playerscore, wavenum, playerlives)
-    gridBg = GridBgOBJ(screen, gridColour)
+    playerHUD = interface.UserHUDObj(screen,textColour, playerscore, wavenum, playerlives)
+    gridBg = interface.GridBgOBJ(screen, gridColour)
     gridBg.make()
 
     game_on = True
