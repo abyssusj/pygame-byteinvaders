@@ -5,7 +5,7 @@ Byte Invaders
 
 **Why?:** Because I wanted a fun python programming learning experience.
 
-**Author:** abyssus dot <nospamkkty> j at gmail dot com.
+**Author:** abyssus dot nospamkkty j at gmail dot com.
 
 Git commands for my reference
 --------------
