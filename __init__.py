@@ -20,6 +20,7 @@ import random
 from data import cosmetics
 from data import interface
 from data import objects
+from data import entities
 
 
 # Main game loop
@@ -34,6 +35,7 @@ if __name__ == "__main__":
     pygame.mixer.music.load(os.path.join('data','sounds', 'nuttypc2.wav'))#load music
 
     screenwh = [432, 423]
+    os.environ['SDL_VIDEO_CENTERED'] = '1' # sets screen creation point to center
     screen = pygame.display.set_mode((screenwh[0], screenwh[1]))
 
     # play music non-stop
@@ -50,7 +52,8 @@ if __name__ == "__main__":
 
     enemyWave = objects.EnemyWave(screen, enemyColour, screenwh, 2)
 
-    playerObj = objects.TriangleObj(190,440,50,50,screen,screenwh,playerColour,3, True)
+    shapeTriangle = objects.TriangleObj(190,440,50,50,screen)
+    playerAvatar = entities.PlayerAvatar(shapeTriangle, 190,440,50,50,screen,screenwh,playerColour,3, True)
 
     playerscore = 0
     wavenum = 1
@@ -81,8 +84,8 @@ if __name__ == "__main__":
         playerHUD.make()
         playerHUD.draw()
 
-        playerObj.draw()
-        playerObj.move()
+        playerAvatar.draw()
+        playerAvatar.move()
 
         enemyWave.draw()
 
